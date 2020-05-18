@@ -11,6 +11,7 @@ def index(request):
 
 def loginview(request):
     html = 'login.html'
+    context = {}
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -21,10 +22,14 @@ def loginview(request):
             if user:
                 login(request, user)
                 return HttpResponseRedirect(
-                    request.GET.get('next', reverse('recipe-list'))
+                    request.GET.get('next', reverse('homepage'))
                 )
-    form = LoginForm()
-    return render(request, html, {'form': form})
+        else:
+            context['login_form'] = form
+    else:
+        form = LoginForm()
+        context['login_form'] = form
+    return render(request, html, context)
 
 
 def logoutview(request):
@@ -39,11 +44,13 @@ def registration_view(request):
     if request.POST:
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            data = form.cleaned_data
-            data.save()
-            email = data.get('email')
-            raw_password = data.get('password1')
-            account = authenticate(email=email, password=raw_password)
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            account = authenticate(
+                username=username,
+                password=raw_password
+            )
             login(request, account)
             return HttpResponseRedirect(reverse('homepage'))
         else:

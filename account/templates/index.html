@@ -5,7 +5,9 @@
   <a href="{% url 'logout' %}">Logout</a>
 {% else %}
   <p>You are not logged in</p>
-  <a href="{% url 'login-page' %}">Login</a>
+  <a href="{% url 'login' %}">Login</a>
+  <br>
+  <br>
   <p>Don't have an account?</p>
   <a href="{% url 'register' %}">Sign Up</a>
 {% endif %}
