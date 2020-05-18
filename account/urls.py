@@ -5,5 +5,11 @@ urlpatterns = [
     path('',
          views.index,
          name='homepage'),
+    path('register/',
+         views.registration_view,
+         name='register'),
+    path('logout/',
+         views.logoutview,
+         name='logout'),
 
 ]
