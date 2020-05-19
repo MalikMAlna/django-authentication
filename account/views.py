@@ -1,12 +1,19 @@
 from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from .forms import RegistrationForm, LoginForm
+from authentication.settings import AUTH_USER_MODEL
 # Create your views here.
 
+# Referenced recipebox here and in template files
+# Also got help from Peter on add AUTH_USER_MODEL
 
+
+@login_required
 def index(request):
-    return render(request, 'index.html')
+    user_model = AUTH_USER_MODEL
+    return render(request, 'index.html', {"user_model": user_model})
 
 
 def loginview(request):
@@ -17,7 +24,9 @@ def loginview(request):
         if form.is_valid():
             data = form.cleaned_data
             user = authenticate(
-                request, username=data['username'], password=data['password']
+                request,
+                username=data['username'],
+                password=data['password'],
             )
             if user:
                 login(request, user)
@@ -52,7 +61,9 @@ def registration_view(request):
                 password=raw_password
             )
             login(request, account)
-            return HttpResponseRedirect(reverse('homepage'))
+            return HttpResponseRedirect(
+                request.GET.get('next', reverse('homepage'))
+            )
         else:
             context['registration_form'] = form
     else:
