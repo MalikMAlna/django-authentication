@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
-# https://www.youtube.com/watch?v=eCeRC7E8Z7Y
+# Code Citation: https://www.youtube.com/watch?v=eCeRC7E8Z7Y
 
 
 class AccountManager(BaseUserManager):

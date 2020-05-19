@@ -127,4 +127,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# From Watching Demo
 AUTH_USER_MODEL = 'account.Account'
